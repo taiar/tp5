@@ -8,11 +8,14 @@ XFLAGSD = < ./entrada/pp
 SAIDAS = p m g
 RM = *.o *.h.gch $(BIN) $(SAIDAS)
 
-io: io.c io.h
-	$(CC) -c io.c io.h $(CFLAGS)
+camadas: camadas.c camadas.h
+	$(CC) -c camadas.c camadas.h $(CFLAGS)
+	
+simulacao: simulacao.c simulacao.h
+	$(CC) -c simulacao.c simulacao.h $(CFLAGS)
 
-main: io tp5.c
-	$(CC) -o $(BIN) tp5.c io.o $(CFLAGS)
+main: camadas simulacao
+	$(CC) -o $(BIN) tp5.c camadas.o simulacao.o $(CFLAGS)
 
 m: clean main
 	./$(BIN) $(XFLAGSB)

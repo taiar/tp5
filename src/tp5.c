@@ -8,10 +8,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "io.h"
+#include "camadas.h"
+#include "simulacao.h"
 
 int main(int argc, char **argv)
 {
+  int nCamadas;
+  Camada *hierarquia = NULL;
+  int tFlag = scanf("%d", &nCamadas);
+  while(tFlag > 0)
+  {
+    hierarquiaConstroi(nCamadas, hierarquia);
+    simulacao();
+    tFlag = scanf("%d", &nCamadas);
+  }
+  /*
   int r_flag, tst_counter = 0;
   int n_camadas;
   int i;
@@ -48,6 +59,6 @@ int main(int argc, char **argv)
     printf("Fim de jogo...\n");
     r_flag = scanf("%d", &n_camadas);
   }
-
+  */
   return EXIT_SUCCESS;
 }
