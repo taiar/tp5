@@ -1,0 +1,9 @@
+Para compilar o programa pode utilizar o Makefile com o comando 
+make main
+
+Para compilar e executar para uma entrada pequena use o comando
+make run
+
+Para executar o programa para outras entradas utilize
+make main
+./tp5 < /caminho/entrada_desejada
