@@ -16,6 +16,11 @@ typedef struct
 {
   int *tempos;
   int *frequencia;
+  int nRequests;
+  int tempoAtual;
+  /*
+   * arrumar uma forma de contabilizar hit e miss das camadas
+   * */
 } Simulacao;
 
 simulacao(Camada*, Simulacao*);
