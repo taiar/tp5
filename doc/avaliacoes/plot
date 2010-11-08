@@ -1,0 +1,9 @@
+set grid
+set terminal png
+set output "testes.png"
+
+set key left box
+set xlabel 'Tamanho dos arquivos[mb]'
+set ylabel 'Tempos[s]'
+plot "plotplot" using 1:($2/100) title "Execução/100" with linespoints, "plotplot" using 1:($3/100) title "Usuário/100" with linespoints, "plotplot" using 1:4 title "Sistema" with linespoints
+#plot "double.data" using 1:2 title "Series 1", "double.data" using 1:3 title "Series 2"
