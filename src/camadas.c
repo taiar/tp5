@@ -20,6 +20,7 @@ void iniciaCamada(char *pol, int cap, int vel, Camada *cam)
 
 void hierarquiaConstroi(int n, Camada *c)
 {
+  printf("Quantidade de camadas: %d\n", n);
   char cTipo[5];
   int i, cCapacidade, cVelocidade;
   // Lê e inicializa vetor de camadas
@@ -27,20 +28,21 @@ void hierarquiaConstroi(int n, Camada *c)
   for (i = 1; i < (n + 1); i += 1)
   {
     scanf("%d %d %s", &cCapacidade, &cVelocidade, cTipo);
+    printf("%d %d %s\n", cCapacidade, cVelocidade, cTipo);
     iniciaCamada(cTipo, cCapacidade, cVelocidade, &c[i]);
   }
   // Lê e inicializa camada 0
   scanf("%d", &cCapacidade);
   iniciaCamada("none", cCapacidade, 10000, &c[0]);
-  printf("Fim das leituras das camadas\n");
 }
 
 void hierarquiaImprime(int n, Camada *c)
 {
   int i;
-  printf("| ID\t | POLITICA\t| CAPACIDADE\t| VELOCIDADE\t|\n");
+  printf("| IDS\t| POL\t| CAP\t| VEL\t|\n");
   for (i = 0; i < n; i += 1)
   {
+    printf("%d\n", i);
     printf("| %d\t| %s\t| %d\t| %d\t|\n", i, c[i].politica, c[i].capacidade,
         c[i].velocidade);
   }

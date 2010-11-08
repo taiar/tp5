@@ -6,3 +6,5 @@
  */
 
 #include "simulacao.h"
+
+void simulacaoExecuta(Camada *c, Simulacao *s);

@@ -14,13 +14,13 @@
 int main(int argc, char **argv)
 {
   int nCamadas;
-  Camada *hierarquia = NULL;
-  Simulacao simulacao;
+  Camada *hierarquia;
+  //Simulacao simulacao;
   int tFlag = scanf("%d", &nCamadas);
   while(tFlag > 0)
   {
-    hierarquiaConstroi(nCamadas, hierarquia);
-    //hierarquiaImprime(nCamadas, hierarquia);
+    hierarquiaConstroi(nCamadas, &hierarquia);
+    hierarquiaImprime(nCamadas, hierarquia);
     break;
     //simulacao(hierarquia, &simulacao);
     tFlag = scanf("%d", &nCamadas);

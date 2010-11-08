@@ -23,6 +23,6 @@ typedef struct
    * */
 } Simulacao;
 
-simulacao(Camada*, Simulacao*);
+void simulacaoExecuta(Camada*, Simulacao*);
 
 #endif /* SIMULACAO_H_ */
