@@ -21,6 +21,7 @@ typedef struct
 
 void camadaInicia(char*, int, int, Camada*);
 void hierarquiaConstroi(int, Camada*);
+void hierarquiaImprime(int, Camada*);
 
 #define CAMADAS_H_
 

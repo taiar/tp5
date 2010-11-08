@@ -34,3 +34,14 @@ void hierarquiaConstroi(int n, Camada *c)
   iniciaCamada("none", cCapacidade, 10000, &c[0]);
   printf("Fim das leituras das camadas\n");
 }
+
+void hierarquiaImprime(int n, Camada *c)
+{
+  int i;
+  printf("| ID\t | POLITICA\t| CAPACIDADE\t| VELOCIDADE\t|\n");
+  for (i = 0; i < n; i += 1)
+  {
+    printf("| %d\t| %s\t| %d\t| %d\t|\n", i, c[i].politica, c[i].capacidade,
+        c[i].velocidade);
+  }
+}

@@ -20,7 +20,9 @@ int main(int argc, char **argv)
   while(tFlag > 0)
   {
     hierarquiaConstroi(nCamadas, hierarquia);
-    simulacao(hierarquia, &simulacao);
+    //hierarquiaImprime(nCamadas, hierarquia);
+    break;
+    //simulacao(hierarquia, &simulacao);
     tFlag = scanf("%d", &nCamadas);
   }
   /*
