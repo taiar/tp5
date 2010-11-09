@@ -7,7 +7,8 @@
 
 #include "camadas.h"
 
-void iniciaCamada(char *pol, int cap, int vel, Camada *cam)
+void
+iniciaCamada(char *pol, int cap, int vel, Camada *cam)
 {
   int i;
   strcpy(cam->politica, pol);
@@ -18,7 +19,8 @@ void iniciaCamada(char *pol, int cap, int vel, Camada *cam)
     cam->memoria[i] = -1;
 }
 
-Camada* hierarquiaConstroi(int n)
+Camada*
+hierarquiaConstroi(int n)
 {
   char cTipo[5];
   int i, cCapacidade, cVelocidade;
@@ -37,7 +39,8 @@ Camada* hierarquiaConstroi(int n)
   return p;
 }
 
-void hierarquiaImprime(int n, Camada *c)
+void
+hierarquiaImprime(int n, Camada *c)
 {
   //printf("endereco na memoria: %p\n", (void*)&c);
   int i;
@@ -46,8 +49,7 @@ void hierarquiaImprime(int n, Camada *c)
   printf("+-------+-------+-------+-------+\n");
   for (i = 0; i < n + 1; i += 1)
   {
-    printf("| %d\t| %s\t| %d\t| %d\t|\n", i, c[i].politica, c[i].capacidade,
-        c[i].velocidade);
+    printf("| %d\t| %s\t| %d\t| %d\t|\n", i, c[i].politica, c[i].capacidade, c[i].velocidade);
   }
   printf("+-------+-------+-------+-------+\n");
 }

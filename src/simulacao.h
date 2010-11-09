@@ -24,5 +24,6 @@ typedef struct
 } Simulacao;
 
 void simulacaoExecuta(Camada*, Simulacao*);
+void simulacaoProcessaRequest(int, int, Simulacao*);
 
 #endif /* SIMULACAO_H_ */
