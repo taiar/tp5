@@ -7,7 +7,7 @@
 
 #include "simulacao.h"
 
-void simulacaoExecuta(Camada *c, Simulacao *s)
+void simulacaoExecuta(Hierarquia *h, Simulacao *s)
 {
   int i, nRequests;
   int id, tempo;

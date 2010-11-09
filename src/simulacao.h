@@ -19,11 +19,11 @@ typedef struct
   int nRequests;
   int tempoAtual;
   /*
-   * arrumar uma forma de contabilizar hit e miss das camadas
+   * TODO: arrumar uma forma de contabilizar hit e miss das camadas
    * */
 } Simulacao;
 
-void simulacaoExecuta(Camada*, Simulacao*);
+void simulacaoExecuta(Hierarquia*, Simulacao*);
 void simulacaoProcessaRequest(int, int, Simulacao*);
 
 #endif /* SIMULACAO_H_ */
