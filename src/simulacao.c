@@ -70,10 +70,8 @@ simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
   // não encontrou o dado em nenhuma das caches, precisa acessar o nivel 0
   if (!findFlag) s->tempoTotal += h->camadas[0].velocidade;
 
-  /**
-   * TODO: aqui devemos saber como os dados devem se comportar nos diferentes níveis da cache.
-   * Duvidas:
-   * 1 - se um dado esta na cache N, ele deve estar também em todos os N - 1 niveis anteriores?
+  /*
+   * RECOLOCA OS DADOS DA CACHE
    */
 
   // grava tempo em o dado foi acessado e sua frequencia de acesso
