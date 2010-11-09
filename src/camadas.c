@@ -34,7 +34,8 @@ hierarquiaConstroi(int n)
   // Lê e inicializa camada 0
   scanf("%d", &cCapacidade);
   iniciaCamada("none", cCapacidade, 10000, &(p[0]));
-
+  for(i = 0; i < cCapacidade; i += 1)
+    p[0].memoria[i] = i;
   return p;
 }
 

@@ -24,14 +24,15 @@ main(int argc, char **argv)
     // Inicia hierarquia de memória
     hierarquiaInicia(nCamadas, &memoria);
 
-    // Executa simulações
+    // Executa e exibe resultado das simulações
     simulacaoExecuta(&memoria, &simulacao);
+    simulacaoImprime(&simulacao, &memoria);
 
     // Libera memória utilizada e zera contadores
     hierarquiaFree(&memoria);
     simulacaoFree(&simulacao);
 
-    // Lê se existem mais teste
+    // Lê se existem mais testes
     tFlag = scanf("%d", &nCamadas);
   }
   return EXIT_SUCCESS;
