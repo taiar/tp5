@@ -38,7 +38,8 @@ void simulacaoExecuta(Hierarquia*, Simulacao*);
 /**
  * Processa individualmente cada request da entrada.
  */
-int simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
+//int simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
+void simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
 
 /**
  * Verifica se um dado se encontra em um determinado nível da memória.

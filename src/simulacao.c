@@ -46,18 +46,18 @@ simulacaoExecuta(Hierarquia *h, Simulacao *s)
   for (i = 0; i < nRequests; i += 1)
   {
     scanf("%d %d", &id, &tempo);
-    s->tempoTotal += simulacaoProcessaRequest(id, tempo, s, h);
+    simulacaoProcessaRequest(id, tempo, s, h);
   }
 }
 
-int
+//int
+void
 simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
 {
   int i, findFlag = 0;
-  int tempoTotal = 0; // tempo acumulado ao verificar as camadas
   for (i = h->nCamadas - 1; i > 0; i -= 1)
   {
-    tempoTotal += h->camadas[i].velocidade;
+    s->tempoTotal += h->camadas[i].velocidade;
     if (memoriaBuscaAcesso(id, i, h))
     {
       s->hits[i] += 1; // conta hit na camada
@@ -67,8 +67,8 @@ simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
     else s->misses[i] += 1; // conta miss na camada
   }
 
-  if (!findFlag) // não encontrou o dado em nenhuma das caches, precisa acessar o nivel 0
-  tempoTotal += h->camadas[0].velocidade;
+  // não encontrou o dado em nenhuma das caches, precisa acessar o nivel 0
+  if (!findFlag) s->tempoTotal += h->camadas[0].velocidade;
 
   /**
    * TODO: aqui devemos saber como os dados devem se comportar nos diferentes níveis da cache.
@@ -79,8 +79,6 @@ simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
   // grava tempo em o dado foi acessado e sua frequencia de acesso
   s->frequencias[id] += 1;
   s->tempos[id] = tempo;
-
-  return tempoTotal;
 }
 
 int
@@ -102,7 +100,7 @@ simulacaoImprime(Simulacao *s, Hierarquia *h)
         + s->misses[i])), (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
   }
   printf("------\n");
-  printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal / s->reqTotal));
+  printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal / (float) s->reqTotal));
 }
 
 void
