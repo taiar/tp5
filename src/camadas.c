@@ -24,14 +24,14 @@ hierarquiaConstroi(int n)
 {
   char cTipo[5];
   int i, cCapacidade, cVelocidade;
-  // Lê e inicializa vetor de camadas
+  // lê e inicializa vetor de camadas
   Camada *p = (Camada*) malloc(sizeof(Camada) * (n + 1));
   for (i = 1; i < (n + 1); i += 1)
   {
     scanf("%d %d %s", &cCapacidade, &cVelocidade, cTipo);
     iniciaCamada(cTipo, cCapacidade, cVelocidade, &(p[i]));
   }
-  // Lê e inicializa camada 0
+  // lê e inicializa camada 0
   scanf("%d", &cCapacidade);
   iniciaCamada("none", cCapacidade, 10000, &(p[0]));
   for(i = 0; i < cCapacidade; i += 1)
@@ -68,4 +68,3 @@ hierarquiaFree(Hierarquia *h)
   free(h->camadas);
   h->nCamadas = 0;
 }
-
