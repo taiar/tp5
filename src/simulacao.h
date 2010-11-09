@@ -12,18 +12,31 @@
 
 #include "camadas.h"
 
+/**
+ * Estrutura que armazena dados referentes às simulações em memória.
+ */
 typedef struct
 {
   int *tempos;
   int *frequencia;
   int nRequests;
   int tempoAtual;
-  /*
-   * TODO: arrumar uma forma de contabilizar hit e miss das camadas
-   * */
+  // TODO: arrumar uma forma de contabilizar hit e miss das camadas
 } Simulacao;
 
+/**
+ * Executa simulação através dos requests enviados na entrada.
+ */
 void simulacaoExecuta(Hierarquia*, Simulacao*);
-void simulacaoProcessaRequest(int, int, Simulacao*);
+
+/**
+ * Processa individualmente cada request da entrada.
+ */
+void simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
+
+/**
+ * Libera memória e zera contadores utilizados nas simulações.
+ */
+void simulacaoFree(Simulacao*);
 
 #endif /* SIMULACAO_H_ */

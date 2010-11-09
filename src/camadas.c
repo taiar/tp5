@@ -41,14 +41,14 @@ hierarquiaConstroi(int n)
 void
 hierarquiaInicia(int n, Hierarquia *h)
 {
-  h->nCamadas = n + 1;
+  h->nCamadas = n + 1; // incrementa em uma unidade para armazenar a camada zero.
   h->camadas = hierarquiaConstroi(n);
 }
 
 void
 hierarquiaImprime(Hierarquia *h)
 {
-  //printf("endereco na memoria: %p\n", (void*)&c);
+  //printf("endereco na memoria: %p\n", (void*)&h->camadas);
   int i;
   printf("+-------+-------+-------+-------+\n");
   printf("| IDS\t| POL\t| CAP\t| VEL\t|\n");

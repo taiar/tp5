@@ -19,7 +19,8 @@ void simulacaoExecuta(Hierarquia *h, Simulacao *s)
   }
 }
 
-void simulacaoProcessaRequest(int id, int tempo, Simulacao *s)
-{
+void simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
+{}
 
-}
+void simulacaoFree(Simulacao *s)
+{}

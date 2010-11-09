@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <string.h>
 
+/**
+ * Estrutura que contém dados de uma camada de memória.
+ */
 typedef struct
 {
   char politica[5];
@@ -19,16 +22,38 @@ typedef struct
   int *memoria;
 } Camada;
 
+/**
+ * Estrutura que contém dados de uma hierarquia de memória.
+ */
 typedef struct
 {
   Camada *camadas;
   int nCamadas;
 } Hierarquia;
 
+/**
+ * Inicia uma camada de memória setando suas propriedades.
+ */
 void camadaInicia(char*, int, int, Camada*);
+
+/**
+ * Constrói uma hierarquia de camadas de memória.
+ */
 Camada* hierarquiaConstroi(int);
+
+/**
+ * Formaliza a construção da hierarquia de memória.
+ */
 void hierarquiaInicia(int, Hierarquia*);
+
+/**
+ * Imprime as camadas de uma hierarquia (para testes).
+ */
 void hierarquiaImprime(Hierarquia*);
+
+/**
+ * Libera memória utilizada pela estrutura que simula a hierarquia.
+ */
 void hierarquiaFree(Hierarquia*);
 
 #define CAMADAS_H_
