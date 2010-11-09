@@ -20,7 +20,7 @@ typedef struct
 } Camada;
 
 void camadaInicia(char*, int, int, Camada*);
-void hierarquiaConstroi(int, Camada*);
+Camada* hierarquiaConstroi(int);
 void hierarquiaImprime(int, Camada*);
 
 #define CAMADAS_H_

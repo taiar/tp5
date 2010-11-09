@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   int tFlag = scanf("%d", &nCamadas);
   while(tFlag > 0)
   {
-    hierarquiaConstroi(nCamadas, &hierarquia);
+    hierarquia = hierarquiaConstroi(nCamadas);
     hierarquiaImprime(nCamadas, hierarquia);
     break;
     //simulacao(hierarquia, &simulacao);
