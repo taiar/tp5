@@ -21,8 +21,10 @@ main(int argc, char **argv)
   while (tFlag > 0)
   {
     hierarquia = hierarquiaConstroi(nCamadas);
-    hierarquiaImprime(nCamadas, hierarquia);
+    //hierarquiaImprime(nCamadas, hierarquia);
     simulacaoExecuta(hierarquia, &simulacao);
+    hierarquiaFree(hierarquia);
+    free(hierarquia);
     tFlag = scanf("%d", &nCamadas);
   }
   return EXIT_SUCCESS;

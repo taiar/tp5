@@ -53,3 +53,9 @@ hierarquiaImprime(int n, Camada *c)
   }
   printf("+-------+-------+-------+-------+\n");
 }
+
+void hierarquiaFree(Camadas *h)
+{
+  int i;
+  for
+}

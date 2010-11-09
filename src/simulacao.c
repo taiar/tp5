@@ -21,5 +21,5 @@ void simulacaoExecuta(Camada *c, Simulacao *s)
 
 void simulacaoProcessaRequest(int id, int tempo, Simulacao *s)
 {
-  printf("re");
+
 }
