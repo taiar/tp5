@@ -70,4 +70,9 @@ void simulacaoImprime(Simulacao*, Hierarquia*);
  */
 void simulacaoFree(Simulacao*);
 
+/**
+ * Exibe o que está na memória em um determinado nível.
+ */
+void dumpMemory(int, Hierarquia*);
+
 #endif /* SIMULACAO_H_ */

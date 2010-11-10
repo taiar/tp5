@@ -109,12 +109,21 @@ void simulacaoMRU(int id, int camada, Hierarquia *h)
 
 void simulacaoFIFO(int id, int camada, Hierarquia *h)
 {
-  printf("opa\n");
+  /**
+   * O erro esta aqui. Estou gravando o dado apenas na camada que é passada como parametro mas
+   * isso esta completamente errado. Eu devo esquecer a camada que é passada como parametro e
+   * gravar em todas as que estao acima desta.
+   * TODO: corrigirrrrrrrrrrrrRRR!!!!!!!!!!!1
+   */
   int i;
   if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
   {
     for (i = 0; i < h->camadas[camada].capacidade; i += 1)
-      if (h->camadas[camada].memoria[i] < 0) h->camadas[camada].memoria[i] = id;
+      if (h->camadas[camada].memoria[i] < 0)
+      {
+        h->camadas[camada].memoria[i] = id;
+        break;
+      }
   }
   else
   {
@@ -127,8 +136,11 @@ void simulacaoFIFO(int id, int camada, Hierarquia *h)
 int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 {
   int i;
+  printf("Buscando %d:\n", id);
+  dumpMemory(camada, h);
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
-    if (id == h->camadas[camada].memoria[i]) return 1;
+    if (id == h->camadas[camada].memoria[i]){ printf("achei aqui\n"); return 1; }
+    else return 0;
   return 0;
 }
 
@@ -152,4 +164,12 @@ void simulacaoFree(Simulacao *s)
   free(s->tempos);
   free(s->hits);
   free(s->misses);
+}
+
+void dumpMemory(int camada, Hierarquia *h)
+{
+  int i;
+  for(i = 0; i < h->camadas[camada].capacidade; i += 1)
+    printf("%d ", h->camadas[camada].memoria[i]);
+  printf("\n\n\n");
 }
