@@ -50,7 +50,6 @@ simulacaoExecuta(Hierarquia *h, Simulacao *s)
   }
 }
 
-//int
 void
 simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
 {
@@ -61,23 +60,50 @@ simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
     if (memoriaBuscaAcesso(id, i, h))
     {
       s->hits[i] += 1; // conta hit na camada
-      findFlag = 1;
+      findFlag = i;
       break;
     }
     else s->misses[i] += 1; // conta miss na camada
   }
 
   // não encontrou o dado em nenhuma das caches, precisa acessar o nivel 0
-  if (!findFlag) s->tempoTotal += h->camadas[0].velocidade;
+  if (findFlag == 0) s->tempoTotal += h->camadas[0].velocidade;
 
-  /*
-   * RECOLOCA OS DADOS DA CACHE
-   */
+  // carrega os dados na devida camada
+  simulacaoCarregaDados(id, findFlag, h);
 
   // grava tempo em o dado foi acessado e sua frequencia de acesso
   s->frequencias[id] += 1;
   s->tempos[id] = tempo;
 }
+
+int
+simulacaoCarregaDados(int id, int camada, Hierarquia *h)
+{
+  int i;
+  int okFlag;
+  for (i = camada + 1; i < h->nCamadas; i += 1)
+  {
+    if (strcmp(h->camadas[i].politica, "lru") == 0)
+      okFlag = simulacaoLRU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "lfu") == 0)
+      okFlag = simulacaoLFU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "mru") == 0)
+      okFlag = simulacaoMRU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "fifo") == 0)
+      okFlag = simulacaoFIFO(id, camada, h);
+    else return 0;
+  }
+  return okFlag;
+}
+
+/*****************************
+ * POLITICAS
+ *****************************/
+int simulacaoLRU(int id, int camada, Hierarquia *h);
+int simulacaoLFU(int id, int camada, Hierarquia *h);
+int simulacaoMRU(int id, int camada, Hierarquia *h);
+int simulacaoFIFO(int id, int camada, Hierarquia *h);
 
 int
 memoriaBuscaAcesso(int id, int camada, Hierarquia *h)

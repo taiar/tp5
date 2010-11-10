@@ -8,7 +8,9 @@
 #ifndef SIMULACAO_H_
 #define SIMULACAO_H_
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "camadas.h"
 
@@ -38,13 +40,25 @@ void simulacaoExecuta(Hierarquia*, Simulacao*);
 /**
  * Processa individualmente cada request da entrada.
  */
-//int simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
 void simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
+
+/**
+ * Carrega dado encontrado em uma camada em todas as superiores.
+ */
+int simulacaoCarregaDados(int, int, Hierarquia*);
 
 /**
  * Verifica se um dado se encontra em um determinado nível da memória.
  */
 int memoriaBuscaAcesso(int, int, Hierarquia*);
+
+/**
+ * Políticas de cache
+ */
+int simulacaoLRU(int, int, Hierarquia*);
+int simulacaoLFU(int, int, Hierarquia*);
+int simulacaoMRU(int, int, Hierarquia*);
+int simulacaoFIFO(int, int, Hierarquia*);
 
 /**
  * Imprime resultado das simulações.
