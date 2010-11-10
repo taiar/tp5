@@ -7,8 +7,8 @@
 
 #include "simulacao.h"
 
-void
-simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas, int totalReq)
+void simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas,
+    int totalReq)
 {
   int i;
 
@@ -33,8 +33,7 @@ simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas, int totalReq)
   }
 }
 
-void
-simulacaoExecuta(Hierarquia *h, Simulacao *s)
+void simulacaoExecuta(Hierarquia *h, Simulacao *s)
 {
   int i, nRequests;
   int id, tempo;
@@ -50,8 +49,7 @@ simulacaoExecuta(Hierarquia *h, Simulacao *s)
   }
 }
 
-void
-simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
+void simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
 {
   int i, findFlag = 0;
   for (i = h->nCamadas - 1; i > 0; i -= 1)
@@ -77,36 +75,56 @@ simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
   s->tempos[id] = tempo;
 }
 
-int
-simulacaoCarregaDados(int id, int camada, Hierarquia *h)
+void simulacaoCarregaDados(int id, int camada, Hierarquia *h)
 {
   int i;
-  int okFlag;
   for (i = camada + 1; i < h->nCamadas; i += 1)
   {
-    if (strcmp(h->camadas[i].politica, "lru") == 0)
-      okFlag = simulacaoLRU(id, camada, h);
-    else if (strcmp(h->camadas[i].politica, "lfu") == 0)
-      okFlag = simulacaoLFU(id, camada, h);
-    else if (strcmp(h->camadas[i].politica, "mru") == 0)
-      okFlag = simulacaoMRU(id, camada, h);
-    else if (strcmp(h->camadas[i].politica, "fifo") == 0)
-      okFlag = simulacaoFIFO(id, camada, h);
-    else return 0;
+    if (strcmp(h->camadas[i].politica, "lru") == 0) simulacaoLRU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "lfu") == 0) simulacaoLFU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "mru") == 0) simulacaoMRU(id, camada, h);
+    else if (strcmp(h->camadas[i].politica, "fifo") == 0) simulacaoFIFO(id, camada, h);
+    else
+    {
+      printf("Tentando acessar camada 0 ou política da camada não reconhecida\n");
+      exit(EXIT_FAILURE);
+    }
   }
-  return okFlag;
 }
 
 /*****************************
  * POLITICAS
  *****************************/
-int simulacaoLRU(int id, int camada, Hierarquia *h);
-int simulacaoLFU(int id, int camada, Hierarquia *h);
-int simulacaoMRU(int id, int camada, Hierarquia *h);
-int simulacaoFIFO(int id, int camada, Hierarquia *h);
+void simulacaoLRU(int id, int camada, Hierarquia *h)
+{
+}
 
-int
-memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
+void simulacaoLFU(int id, int camada, Hierarquia *h)
+{
+}
+
+void simulacaoMRU(int id, int camada, Hierarquia *h)
+{
+}
+
+void simulacaoFIFO(int id, int camada, Hierarquia *h)
+{
+  printf("opa\n");
+  int i;
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  {
+    for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+      if (h->camadas[camada].memoria[i] < 0) h->camadas[camada].memoria[i] = id;
+  }
+  else
+  {
+    for (i = 0; i < h->camadas[camada].capacidade - 1; i += 1)
+      h->camadas[camada].memoria[i] = h->camadas[camada].memoria[i + 1];
+    h->camadas[camada].memoria[h->camadas[camada].capacidade - 1] = id;
+  }
+}
+
+int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 {
   int i;
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
@@ -114,21 +132,21 @@ memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
   return 0;
 }
 
-void
-simulacaoImprime(Simulacao *s, Hierarquia *h)
+void simulacaoImprime(Simulacao *s, Hierarquia *h)
 {
   int i;
   for (i = 1; i < h->nCamadas; i += 1)
   {
-    printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i, (float) (s->hits[i] / (s->hits[i]
-        + s->misses[i])), (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
+    printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
+        (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
+        (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
   }
   printf("------\n");
-  printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal / (float) s->reqTotal));
+  printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal
+      / (float) s->reqTotal));
 }
 
-void
-simulacaoFree(Simulacao *s)
+void simulacaoFree(Simulacao *s)
 {
   free(s->frequencias);
   free(s->tempos);

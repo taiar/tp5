@@ -19,6 +19,7 @@ typedef struct
   char politica[5];
   int capacidade;
   int velocidade;
+  int ocupacao;
   int *memoria;
 } Camada;
 

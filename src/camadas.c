@@ -7,20 +7,19 @@
 
 #include "camadas.h"
 
-void
-iniciaCamada(char *pol, int cap, int vel, Camada *cam)
+void camadaInicia(char *pol, int cap, int vel, Camada *cam)
 {
   int i;
   strcpy(cam->politica, pol);
   cam->capacidade = cap;
   cam->velocidade = vel;
+  cam->ocupacao = 0;
   cam->memoria = (int*) malloc(sizeof(int) * cam->capacidade);
   for (i = 0; i < cam->capacidade; i += 1)
     cam->memoria[i] = -1;
 }
 
-Camada*
-hierarquiaConstroi(int n)
+Camada* hierarquiaConstroi(int n)
 {
   char cTipo[5];
   int i, cCapacidade, cVelocidade;
@@ -29,25 +28,23 @@ hierarquiaConstroi(int n)
   for (i = 1; i < (n + 1); i += 1)
   {
     scanf("%d %d %s", &cCapacidade, &cVelocidade, cTipo);
-    iniciaCamada(cTipo, cCapacidade, cVelocidade, &(p[i]));
+    camadaInicia(cTipo, cCapacidade, cVelocidade, &(p[i]));
   }
   // lê e inicializa camada 0
   scanf("%d", &cCapacidade);
-  iniciaCamada("none", cCapacidade, 10000, &(p[0]));
-  for(i = 0; i < cCapacidade; i += 1)
+  camadaInicia("none", cCapacidade, 10000, &(p[0]));
+  for (i = 0; i < cCapacidade; i += 1)
     p[0].memoria[i] = i;
   return p;
 }
 
-void
-hierarquiaInicia(int n, Hierarquia *h)
+void hierarquiaInicia(int n, Hierarquia *h)
 {
   h->nCamadas = n + 1; // incrementa em uma unidade para armazenar a camada zero.
   h->camadas = hierarquiaConstroi(n);
 }
 
-void
-hierarquiaImprime(Hierarquia *h)
+void hierarquiaImprime(Hierarquia *h)
 {
   //printf("endereco na memoria: %p\n", (void*)&h->camadas);
   int i;
@@ -55,12 +52,12 @@ hierarquiaImprime(Hierarquia *h)
   printf("| IDS\t| POL\t| CAP\t| VEL\t|\n");
   printf("+-------+-------+-------+-------+\n");
   for (i = 0; i < h->nCamadas; i += 1)
-    printf("| %d\t| %s\t| %d\t| %d\t|\n", i, h->camadas[i].politica, h->camadas[i].capacidade, h->camadas[i].velocidade);
+    printf("| %d\t| %s\t| %d\t| %d\t|\n", i, h->camadas[i].politica,
+        h->camadas[i].capacidade, h->camadas[i].velocidade);
   printf("+-------+-------+-------+-------+\n");
 }
 
-void
-hierarquiaFree(Hierarquia *h)
+void hierarquiaFree(Hierarquia *h)
 {
   int i;
   for (i = 0; i < h->nCamadas; i += 1)
