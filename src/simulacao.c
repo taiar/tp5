@@ -54,9 +54,9 @@ void simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
   int i, findFlag = 0;
   for (i = h->nCamadas - 1; i > 0; i -= 1)
   {
-    s->tempoTotal += h->camadas[i].velocidade;
     if (memoriaBuscaAcesso(id, i, h))
     {
+      s->tempoTotal += h->camadas[i].velocidade;
       s->hits[i] += 1; // conta hit na camada
       findFlag = i;
       break;
