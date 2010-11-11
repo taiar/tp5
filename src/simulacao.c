@@ -98,6 +98,31 @@ void simulacaoCarregaDados(int id, int camada, Simulacao *s, Hierarquia *h)
  *****************************/
 void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
+  int i, guardaPos = 0;
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  {
+    for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+    {
+      if (h->camadas[camada].memoria[i] < 0)
+      {
+        h->camadas[camada].memoria[i] = id;
+        h->camadas[camada].ocupacao += 1;
+        break;
+      }
+    }
+  }
+  else
+  {
+    for(i = 0; i < h->camadas[camada].capacidade; i += 1)
+    {
+      if(s->frequencias[i] < s->frequencias[guardaPos]) // selecionando dado com menor frequencia de acesso
+        guardaPos = i;
+      else if(s->frequencias[i] == s->frequencias[guardaPos]) // empate resolvido pelo menor id do dado
+        if(i < guardaPos)
+          guardaPos = i;
+    }
+    h->camadas[camada].memoria[guardaPos] = id;
+  }
 }
 
 void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
@@ -106,6 +131,31 @@ void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
 
 void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
+  int i, guardaPos = 0;
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  {
+    for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+    {
+      if (h->camadas[camada].memoria[i] < 0)
+      {
+        h->camadas[camada].memoria[i] = id;
+        h->camadas[camada].ocupacao += 1;
+        break;
+      }
+    }
+  }
+  else
+  {
+    for(i = 0; i < h->camadas[camada].capacidade; i += 1)
+    {
+      if(s->frequencias[i] > s->frequencias[guardaPos]) // selecionando dado com maior frequencia de acesso
+        guardaPos = i;
+      else if(s->frequencias[i] == s->frequencias[guardaPos]) // empate resolvido pelo menor id do dado
+        if(i < guardaPos)
+          guardaPos = i;
+    }
+    h->camadas[camada].memoria[guardaPos] = id;
+  }
 }
 
 void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
@@ -118,6 +168,7 @@ void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
       if (h->camadas[camada].memoria[i] < 0)
       {
         h->camadas[camada].memoria[i] = id;
+        h->camadas[camada].ocupacao += 1;
         break;
       }
     }
