@@ -68,23 +68,22 @@ void simulacaoProcessaRequest(int id, int tempo, Simulacao *s, Hierarquia *h)
   if (findFlag == 0) s->tempoTotal += h->camadas[0].velocidade;
 
   // carrega os dados na devida camada
-  simulacaoCarregaDados(id, findFlag, h);
+  simulacaoCarregaDados(id, findFlag, s, h);
 
   // grava tempo em o dado foi acessado e sua frequencia de acesso
   s->frequencias[id] += 1;
   s->tempos[id] = tempo;
 }
 
-void simulacaoCarregaDados(int id, int camada, Hierarquia *h)
+void simulacaoCarregaDados(int id, int camada, Simulacao *s, Hierarquia *h)
 {
   int i;
   for (i = camada + 1; i < h->nCamadas; i += 1)
   {
-    if (strcmp(h->camadas[i].politica, "lru") == 0) simulacaoLRU(id, i, h);
-    else if (strcmp(h->camadas[i].politica, "lfu") == 0) simulacaoLFU(id, i, h);
-    else if (strcmp(h->camadas[i].politica, "mru") == 0) simulacaoMRU(id, i, h);
-    else if (strcmp(h->camadas[i].politica, "fifo") == 0) simulacaoFIFO(id, i,
-        h);
+    if (strcmp(h->camadas[i].politica, "lru") == 0) simulacaoLRU(id, i, s, h);
+    else if (strcmp(h->camadas[i].politica, "lfu") == 0) simulacaoLFU(id, i, s, h);
+    else if (strcmp(h->camadas[i].politica, "mru") == 0) simulacaoMRU(id, i, s, h);
+    else if (strcmp(h->camadas[i].politica, "fifo") == 0) simulacaoFIFO(id, i, s, h);
     else
     {
       printf(
@@ -97,19 +96,19 @@ void simulacaoCarregaDados(int id, int camada, Hierarquia *h)
 /*****************************
  * POLITICAS
  *****************************/
-void simulacaoLRU(int id, int camada, Hierarquia *h)
+void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
 }
 
-void simulacaoLFU(int id, int camada, Hierarquia *h)
+void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
 }
 
-void simulacaoMRU(int id, int camada, Hierarquia *h)
+void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
 }
 
-void simulacaoFIFO(int id, int camada, Hierarquia *h)
+void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
 {
   int i;
   if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)

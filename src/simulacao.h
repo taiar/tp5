@@ -25,7 +25,6 @@ typedef struct
   int *misses; // Armazena o número de misses / camada.
   int reqTotal; // Armazena o total de requests feitos no total.
   float tempoTotal; // Armazena o tempo de resposta total gasto nas camadas.
-// TODO: arrumar uma forma de contabilizar hit e miss das camadas
 } Simulacao;
 
 /**
@@ -45,15 +44,15 @@ void simulacaoProcessaRequest(int, int, Simulacao*, Hierarquia*);
 /**
  * Políticas de cache
  */
-void simulacaoLRU(int, int, Hierarquia*);
-void simulacaoLFU(int, int, Hierarquia*);
-void simulacaoMRU(int, int, Hierarquia*);
-void simulacaoFIFO(int, int, Hierarquia*);
+void simulacaoLRU(int, int, Simulacao*, Hierarquia*);
+void simulacaoLFU(int, int, Simulacao*, Hierarquia*);
+void simulacaoMRU(int, int, Simulacao*, Hierarquia*);
+void simulacaoFIFO(int, int, Simulacao*, Hierarquia*);
 
 /**
  * Carrega dado encontrado em uma camada em todas as superiores.
  */
-void simulacaoCarregaDados(int, int, Hierarquia*);
+void simulacaoCarregaDados(int, int, Simulacao*, Hierarquia*);
 
 /**
  * Verifica se um dado se encontra em um determinado nível da memória.
