@@ -115,9 +115,9 @@ void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->frequencias[i] < s->frequencias[guardaPos]) // selecionando dado com menor frequencia de acesso
+      if(s->tempos[i] < s->tempos[guardaPos]) // selecionando dado com menor frequencia de acesso
         guardaPos = i;
-      else if(s->frequencias[i] == s->frequencias[guardaPos]) // empate resolvido pelo menor id do dado
+      else if(s->tempos[i] == s->tempos[guardaPos]) // empate resolvido pelo menor id do dado
         if(i < guardaPos)
           guardaPos = i;
     }
@@ -148,9 +148,9 @@ void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->frequencias[i] > s->frequencias[guardaPos]) // selecionando dado com maior frequencia de acesso
+      if(s->tempos[i] > s->tempos[guardaPos]) // selecionando dado com maior frequencia de acesso
         guardaPos = i;
-      else if(s->frequencias[i] == s->frequencias[guardaPos]) // empate resolvido pelo menor id do dado
+      else if(s->tempos[i] == s->tempos[guardaPos]) // empate resolvido pelo menor id do dado
         if(i < guardaPos)
           guardaPos = i;
     }
