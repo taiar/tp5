@@ -12,8 +12,6 @@ void simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas,
 {
   int i;
 
-  printf("Total de itens: %d\n", totalItens);
-
   s->reqTotal = totalReq;
   s->tempoTotal = 0;
 
@@ -24,8 +22,8 @@ void simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas,
 
   for (i = 0; i < totalItens; i += 1)
   {
-    s->tempos[i] = -1;
-    s->frequencias[i] = -1;
+    s->tempos[i] = 0;
+    s->frequencias[i] = 0;
   }
 
   for (i = 0; i < totalCamadas; i += 1)
@@ -211,9 +209,10 @@ void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
 int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 {
   int i;
+  //printf("Buscando %d em:\n", id);
+  //dumpMemory(camada, h);
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     if (id == h->camadas[camada].memoria[i]) return 1;
-    else return 0;
   return 0;
 }
 
