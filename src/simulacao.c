@@ -12,6 +12,8 @@ void simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas,
 {
   int i;
 
+  printf("Total de itens: %d\n", totalItens);
+
   s->reqTotal = totalReq;
   s->tempoTotal = 0;
 
@@ -221,10 +223,10 @@ void simulacaoImprime(Simulacao *s, Hierarquia *h)
   int i;
   for (i = 1; i < h->nCamadas; i += 1)
   {
-    printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
-        (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
-        (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
-    //printf("Camada %d => Cache Hit Ratio = %d; Cache Miss Ratio = %d\n", i, s->hits[i], s->misses[i]  );
+    //printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
+    //    (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
+    //    (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
+    printf("Camada %d => Cache Hit Ratio = %d; Cache Miss Ratio = %d\n", i, s->hits[i], s->misses[i]);
   }
   printf("------\n");
   printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal

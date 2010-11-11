@@ -17,7 +17,7 @@ echo $totalReq . "\n";
 
 for($i = 0; $i < $totalReq; $i += 1)
 {
-  echo rand(1,$totalReq) . " ";
+  echo rand(1,$capCamInicial) . " ";
   if(rand(0,1) == 1)
     $counterzao += 1;
   echo $counterzao . "\n";
