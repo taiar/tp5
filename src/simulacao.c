@@ -83,10 +83,12 @@ void simulacaoCarregaDados(int id, int camada, Hierarquia *h)
     if (strcmp(h->camadas[i].politica, "lru") == 0) simulacaoLRU(id, i, h);
     else if (strcmp(h->camadas[i].politica, "lfu") == 0) simulacaoLFU(id, i, h);
     else if (strcmp(h->camadas[i].politica, "mru") == 0) simulacaoMRU(id, i, h);
-    else if (strcmp(h->camadas[i].politica, "fifo") == 0) simulacaoFIFO(id, i, h);
+    else if (strcmp(h->camadas[i].politica, "fifo") == 0) simulacaoFIFO(id, i,
+        h);
     else
     {
-      printf("Tentando acessar camada 0 ou política da camada não reconhecida\n");
+      printf(
+          "Tentando acessar camada 0 ou política da camada não reconhecida\n");
       exit(EXIT_FAILURE);
     }
   }
@@ -109,33 +111,24 @@ void simulacaoMRU(int id, int camada, Hierarquia *h)
 
 void simulacaoFIFO(int id, int camada, Hierarquia *h)
 {
-  /**
-   * O erro esta aqui. Estou gravando o dado apenas na camada que é passada como parametro mas
-   * isso esta completamente errado. Eu devo esquecer a camada que é passada como parametro e
-   * gravar em todas as que estao acima desta.
-   * TODO: corrigirrrrrrrrrrrrRRR!!!!!!!!!!!
-   */
   int i;
-    //printf("camada que vai analizar: %d | camadas total: %d\n", camada + 1, h->nCamadas - 1);
-    printf("item %d camada %d\n", id, camada);
-    //dumpMemory(j, h);
-    if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  {
+    for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+      if (h->camadas[camada].memoria[i] < 0)
       {
-        if (h->camadas[camada].memoria[i] < 0)
-        {
-          h->camadas[camada].memoria[i] = id;
-          break;
-        }
+        h->camadas[camada].memoria[i] = id;
+        break;
       }
     }
-    else
-    {
-      for (i = 0; i < h->camadas[camada].capacidade - 1; i += 1)
-        h->camadas[camada].memoria[i] = h->camadas[camada].memoria[i + 1];
-      h->camadas[camada].memoria[h->camadas[camada].capacidade - 1] = id;
-    }
+  }
+  else
+  {
+    for (i = 0; i < h->camadas[camada].capacidade - 1; i += 1)
+      h->camadas[camada].memoria[i] = h->camadas[camada].memoria[i + 1];
+    h->camadas[camada].memoria[h->camadas[camada].capacidade - 1] = id;
+  }
 }
 
 int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
@@ -144,19 +137,25 @@ int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
   //printf("Buscando %d:\n", id);
   //dumpMemory(camada, h);
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
-    if (id == h->camadas[camada].memoria[i]){ printf("achei aqui\n"); return 1; }
+    if (id == h->camadas[camada].memoria[i])
+    {
+      printf("achei aqui\n");
+      return 1;
+    }
     else return 0;
   return 0;
 }
 
 void simulacaoImprime(Simulacao *s, Hierarquia *h)
 {
+  //TODO: calculo de miss / hit errados
   int i;
   for (i = 1; i < h->nCamadas; i += 1)
   {
     printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
         (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
         (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
+    //printf("Camada %d => Cache Hit Ratio = %d; Cache Miss Ratio = %d\n", i, s->hits[i], s->misses[i]  );
   }
   printf("------\n");
   printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal
@@ -174,7 +173,7 @@ void simulacaoFree(Simulacao *s)
 void dumpMemory(int camada, Hierarquia *h)
 {
   int i;
-  for(i = 0; i < h->camadas[camada].capacidade; i += 1)
+  for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     printf("%d ", h->camadas[camada].memoria[i]);
   printf("\n\n\n");
 }
