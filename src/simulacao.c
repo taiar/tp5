@@ -99,7 +99,7 @@ void simulacaoCarregaDados(int id, int camada, Simulacao *s, Hierarquia *h)
 void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
   int i, guardaPos = 0;
-  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade) // a cache ainda não está cheia
   {
     for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
@@ -111,7 +111,7 @@ void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
       }
     }
   }
-  else
+  else // cache cheia, usa a política para alocar espaço para o novo dado a ser gravado
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
@@ -159,7 +159,7 @@ void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
 void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
 {
   int i, guardaPos = 0;
-  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade)
+  if (h->camadas[camada].ocupacao < h->camadas[camada].capacidade) // a cache ainda não está cheia
   {
     for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
@@ -171,16 +171,18 @@ void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
       }
     }
   }
-  else
+  else // cache cheia, usa a política para alocar espaço para o novo dado a ser gravado
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->tempos[i] > s->tempos[guardaPos]) // selecionando dado com maior tempo de acesso
+      if(s->tempos[h->camadas[camada].memoria[i]] > s->tempos[h->camadas[camada].memoria[guardaPos]]) // selecionando dado com maior tempo de acesso
         guardaPos = i;
-      else if(s->tempos[i] == s->tempos[guardaPos]) // empate resolvido pelo menor id do dado
+      else if(s->tempos[h->camadas[camada].memoria[i]] == s->tempos[h->camadas[camada].memoria[guardaPos]]) // empate resolvido pelo menor id do dado
         if(i < guardaPos)
           guardaPos = i;
     }
+    dumpTime(camada, h, s);
+    printf("sai o %d\n", h->camadas[camada].memoria[guardaPos]);
     h->camadas[camada].memoria[guardaPos] = id;
   }
 }
