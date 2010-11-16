@@ -115,12 +115,14 @@ void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->tempos[i] < s->tempos[guardaPos]) // selecionando dado com menor tempo de acesso
+      if(s->tempos[i] > s->tempos[guardaPos]) // selecionando dado com menor tempo de acesso
         guardaPos = i;
       else if(s->tempos[i] == s->tempos[guardaPos]) // empate resolvido pelo menor id do dado
         if(i < guardaPos)
           guardaPos = i;
     }
+    dumpTime(camada, h, s);
+    printf("sai o %d\n", h->camadas[camada].memoria[guardaPos]);
     h->camadas[camada].memoria[guardaPos] = id;
   }
 }
@@ -209,10 +211,10 @@ void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
 int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 {
   int i;
-  //printf("Buscando %d em:\n", id);
-  //dumpMemory(camada, h);
+  printf("Buscando %d em:\n", id);
+  dumpMemory(camada, h);
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
-    if (id == h->camadas[camada].memoria[i]) return 1;
+    if (id == h->camadas[camada].memoria[i]) { printf("HIT!\n");return 1; }
   return 0;
 }
 
@@ -245,5 +247,13 @@ void dumpMemory(int camada, Hierarquia *h)
   int i;
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     printf("%d ", h->camadas[camada].memoria[i]);
-  printf("\n\n\n");
+  printf("\n");
+}
+
+void dumpTime(int camada, Hierarquia *h, Simulacao *s)
+{
+  int i;
+  for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+    printf("%d ", s->tempos[h->camadas[camada].memoria[i]]);
+  printf("\n");
 }
