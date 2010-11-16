@@ -183,7 +183,7 @@ void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
       if(s->tempos[h->camadas[camada].memoria[i]] > s->tempos[h->camadas[camada].memoria[guardaPos]]) // selecionando dado com maior tempo de acesso
         guardaPos = i;
       else if(s->tempos[h->camadas[camada].memoria[i]] == s->tempos[h->camadas[camada].memoria[guardaPos]]) // empate resolvido pelo menor id do dado
-        if(i < guardaPos)
+        if(h->camadas[camada].memoria[i] < h->camadas[camada].memoria[guardaPos])
           guardaPos = i;
     }
     dumpTime(camada, h, s);
