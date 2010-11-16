@@ -118,11 +118,9 @@ void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
       if(s->tempos[h->camadas[camada].memoria[i]] < s->tempos[h->camadas[camada].memoria[guardaPos]]) // selecionando dado com menor tempo de acesso
         guardaPos = i;
       else if(s->tempos[h->camadas[camada].memoria[i]] == s->tempos[h->camadas[camada].memoria[guardaPos]]) // empate resolvido pelo menor id do dado
-        if(i < guardaPos)
+        if(h->camadas[camada].memoria[i] < h->camadas[camada].memoria[guardaPos])
           guardaPos = i;
     }
-    dumpTime(camada, h, s);
-    printf("sai o %d\n", h->camadas[camada].memoria[guardaPos]);
     h->camadas[camada].memoria[guardaPos] = id;
   }
 }
@@ -146,11 +144,18 @@ void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->frequencias[i] < s->frequencias[guardaPos]) // selecionando dado com menor frequencia de acesso
+      if(s->frequencias[h->camadas[camada].memoria[i]] < s->frequencias[h->camadas[camada].memoria[guardaPos]]) // selecionando dado com menor frequencia de acesso
+      {
         guardaPos = i;
-      else if(s->frequencias[i] == s->frequencias[guardaPos]) // empate resolvido pelo menor id do dado
-        if(i < guardaPos)
+      }
+      else if(s->frequencias[h->camadas[camada].memoria[i]] == s->frequencias[h->camadas[camada].memoria[guardaPos]]) // empate resolvido pelo menor id do dado
+      {
+        if(h->camadas[camada].memoria[i] < h->camadas[camada].memoria[guardaPos])
+        {
           guardaPos = i;
+        }
+      }
+      printf("%d\n", guardaPos);
     }
     h->camadas[camada].memoria[guardaPos] = id;
   }
@@ -204,9 +209,12 @@ void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
   }
   else
   {
+    printf("sai o %d\n", h->camadas[camada].memoria[0]);
+    printf("entra o %d\nfica assim:\n", id);
     for (i = 0; i < h->camadas[camada].capacidade - 1; i += 1)
       h->camadas[camada].memoria[i] = h->camadas[camada].memoria[i + 1];
     h->camadas[camada].memoria[h->camadas[camada].capacidade - 1] = id;
+    dumpMemory(camada, h);
   }
 }
 
@@ -257,5 +265,13 @@ void dumpTime(int camada, Hierarquia *h, Simulacao *s)
   int i;
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
     printf("%d ", s->tempos[h->camadas[camada].memoria[i]]);
+  printf("\n");
+}
+
+void dumpFreq(int camada, Hierarquia *h, Simulacao *s)
+{
+  int i;
+  for (i = 0; i < h->camadas[camada].capacidade; i += 1)
+    printf("%d ", s->frequencias[h->camadas[camada].memoria[i]]);
   printf("\n");
 }

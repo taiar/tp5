@@ -70,9 +70,10 @@ void simulacaoImprime(Simulacao*, Hierarquia*);
 void simulacaoFree(Simulacao*);
 
 /**
- * Exibe o que está na memória em um determinado nível.
+ * Exibe atributos que estão na memória em um determinados níveis.
  */
 void dumpMemory(int, Hierarquia*);
 void dumpTime(int, Hierarquia*, Simulacao*);
+void dumpFreq(int, Hierarquia*, Simulacao*);
 
 #endif /* SIMULACAO_H_ */
