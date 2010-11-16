@@ -17,8 +17,8 @@ void simulacaoInicia(Simulacao *s, int totalItens, int totalCamadas,
 
   s->tempos = (int*) malloc(sizeof(int) * totalItens);
   s->frequencias = (int*) malloc(sizeof(int) * totalItens);
-  s->hits = (int*) malloc(sizeof(int) * totalCamadas);
-  s->misses = (int*) malloc(sizeof(int) * totalCamadas);
+  s->hits = (float*) malloc(sizeof(float) * totalCamadas);
+  s->misses = (float*) malloc(sizeof(float) * totalCamadas);
 
   for (i = 0; i < totalItens; i += 1)
   {
@@ -222,14 +222,13 @@ int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 
 void simulacaoImprime(Simulacao *s, Hierarquia *h)
 {
-  //TODO: calculo de miss / hit errados
   int i;
   for (i = 1; i < h->nCamadas; i += 1)
   {
-    //printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
-    //    (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
-    //    (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
-    printf("Camada %d => Cache Hit Ratio = %d; Cache Miss Ratio = %d\n", i, s->hits[i], s->misses[i]);
+    printf("Camada %d => Cache Hit Ratio = %f; Cache Miss Ratio = %f\n", i,
+        (float) (s->hits[i] / (s->hits[i] + s->misses[i])),
+        (float) (s->misses[i] / (s->hits[i] + s->misses[i])));
+    //printf("Camada %d => Cache Hit Ratio = %d; Cache Miss Ratio = %d\n", i, s->hits[i], s->misses[i]);
   }
   printf("------\n");
   printf("Tempo de resposta médio por requisição = %f T\n", (s->tempoTotal

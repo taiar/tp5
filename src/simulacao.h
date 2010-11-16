@@ -21,8 +21,8 @@ typedef struct
 {
   int *tempos; // Lista que contém o último tempo em que o objeto foi acessado.
   int *frequencias; // Lista que contém quantas vezes o objeto foi acessado.
-  int *hits; // Armazena o número de hits / camada.
-  int *misses; // Armazena o número de misses / camada.
+  float *hits; // Armazena o número de hits / camada.
+  float *misses; // Armazena o número de misses / camada.
   int reqTotal; // Armazena o total de requests feitos no total.
   float tempoTotal; // Armazena o tempo de resposta total gasto nas camadas.
 } Simulacao;
