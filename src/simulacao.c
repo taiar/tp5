@@ -115,9 +115,9 @@ void simulacaoLRU(int id, int camada, Simulacao *s, Hierarquia *h)
   {
     for(i = 0; i < h->camadas[camada].capacidade; i += 1)
     {
-      if(s->tempos[i] > s->tempos[guardaPos]) // selecionando dado com menor tempo de acesso
+      if(s->tempos[h->camadas[camada].memoria[i]] < s->tempos[h->camadas[camada].memoria[guardaPos]]) // selecionando dado com menor tempo de acesso
         guardaPos = i;
-      else if(s->tempos[i] == s->tempos[guardaPos]) // empate resolvido pelo menor id do dado
+      else if(s->tempos[h->camadas[camada].memoria[i]] == s->tempos[h->camadas[camada].memoria[guardaPos]]) // empate resolvido pelo menor id do dado
         if(i < guardaPos)
           guardaPos = i;
     }
