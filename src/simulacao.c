@@ -155,7 +155,6 @@ void simulacaoLFU(int id, int camada, Simulacao *s, Hierarquia *h)
           guardaPos = i;
         }
       }
-      printf("%d\n", guardaPos);
     }
     h->camadas[camada].memoria[guardaPos] = id;
   }
@@ -186,8 +185,6 @@ void simulacaoMRU(int id, int camada, Simulacao *s, Hierarquia *h)
         if(h->camadas[camada].memoria[i] < h->camadas[camada].memoria[guardaPos])
           guardaPos = i;
     }
-    dumpTime(camada, h, s);
-    printf("sai o %d\n", h->camadas[camada].memoria[guardaPos]);
     h->camadas[camada].memoria[guardaPos] = id;
   }
 }
@@ -209,22 +206,17 @@ void simulacaoFIFO(int id, int camada, Simulacao *s, Hierarquia *h)
   }
   else
   {
-    printf("sai o %d\n", h->camadas[camada].memoria[0]);
-    printf("entra o %d\nfica assim:\n", id);
     for (i = 0; i < h->camadas[camada].capacidade - 1; i += 1)
       h->camadas[camada].memoria[i] = h->camadas[camada].memoria[i + 1];
     h->camadas[camada].memoria[h->camadas[camada].capacidade - 1] = id;
-    dumpMemory(camada, h);
   }
 }
 
 int memoriaBuscaAcesso(int id, int camada, Hierarquia *h)
 {
   int i;
-  printf("Buscando %d em:\n", id);
-  dumpMemory(camada, h);
   for (i = 0; i < h->camadas[camada].capacidade; i += 1)
-    if (id == h->camadas[camada].memoria[i]) { printf("HIT!\n");return 1; }
+    if (id == h->camadas[camada].memoria[i]) return 1;
   return 0;
 }
 
