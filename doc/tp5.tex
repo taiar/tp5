@@ -60,6 +60,27 @@ de são diferenciados usualmente por duas dimensões: o tamanho (ou a capacidade
 nível) e sua velocidade de acesso (ou sua latência - velocidade com a qual a memória disponibiliza o dado 
 assim que ele é requisitado).
 
+Neste trabalho desenvolvemos um simulador para hierarquias arbitrárias de memória. Nele, podemos definir o número 
+de níveis que queremos, a capacidade de cada nível (em uma unidade chamada MUNITS), a velocidade em que cada nível 
+responde à uma requisição (em uma unidade chamada TUNITS) e qual a política de manejo de memória aquele nível utiliza
+para lidar com os dados quando sua capacidade máxima de armazenamento for atingida. Com uma hierarquia definida, 
+começamos a simular que dados são requeridos por algum sistema que estaria rodando sobre tal plataforma fazendo 
+com que estes dados trafeguem pelo sistema.
+
+Inicialmente, todos os dados se encontram em um nível inicial \textbf{0}, que funciona com uma capacidade e velocidade 
+definidas independentemente da hierarquia de memória arbitrária que será simulada. Os dados são rquisitados sempre na 
+camada de ID mais alto definida na hierarquia. Dessa forma, dois cenários são possíveis:
+
+\begin{itemize}
+  \item \textbf{HIT} - o dado é encontrado no nível requisitado;
+  \item \textbf{MISS} - o dado não é encontrado no nível requisitado.
+\end{itemize}
+
+O tempo de resposta em que o dado foi encontrado equivale à velocidade da camada em que o dado foi encontrado. Quando 
+acontece um HIT em uma camada em que um dado foi requisitado, ele é retornado e o HIT da camada é contabilizado. Quando 
+acontece um MISS, o contabilizamos na camada e fazemos a requisição ao mesmo dado em um nível abaixo. As requisições 
+são propagadas níveis abaixo à medida em que os MISS's acontecem até que seja requisitada ao nível 0 quando com certeza
+acontecerá o HIT. Nesse caso ele não é contabilizado.
 
 \section{Solução Proposta}
 \label{solucao_proposta}
