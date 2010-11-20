@@ -37,6 +37,7 @@
 \maketitle
 
 \begin{resumo}
+\label{resumo}
 Este relatório descreve um controlador de hierarquia de memórias e um simulador orientado
 a eventos para a geração de requisições de dados que estão gravados nesta memória. Foi simulado 
 a requisição de dados que se encontravam em uma camada mais baixa (com alta latência) e utilizado 
@@ -49,6 +50,7 @@ utiliza.
 \end{resumo}
 
 \section{Introdução}
+\label{introducao}
 \textit{"O ideal seria ter uma capacidade de memória infinitamente grande a ponto de qualquer word
 específica ... estar imediatamente disponível. ... Somos ... forçados a reconhecer a possibilidade de 
 construir uma hierarquia de memórias, cada uma com capacidade maior que a anterior, mas com acessibilidade
@@ -82,62 +84,37 @@ acontece um MISS, o contabilizamos na camada e fazemos a requisição ao mesmo d
 são propagadas níveis abaixo à medida em que os MISS's acontecem até que seja requisitada ao nível 0 quando com certeza
 acontecerá o HIT. Nesse caso ele não é contabilizado.
 
+Ao final da simulação, fazemos a razão entre os HIT e MISS contabilizados por cada camada e calculamos assim o MISS RATIO 
+e o HIT RATIO:
+\begin{center}
+\[MissRatio = \frac{nMissCamada}{(nHitCamada + nMissCamada)}\]
+\[HitRatio = \frac{nHitCamada}{(nHitCamada + nMissCamada)}\]
+\end{center}
+
+Contabilizamos também o tempo médio gasto em cada chamada à um dado no programa somando todos os tempos de resposta das
+camadas em acontece HIT e dividindo esse resultado pelo total de chamadas feitas ao programa.
+
 \section{Solução Proposta}
 \label{solucao_proposta}
 
-O método de Intercalação Balanceada de Vários Caminhos, lê partes arbitrárias do 
-aquivo de entrada a ser ordenado (partes essas que cabem em memória principal e 
-podem ser manipuladas assim), as ordena e salva em arquivos temporários. Ao final 
-do processo, quando todo o arquivo inicial está fragmentado em arquivos temporários
-menores e ordenados, começa o processo de intercalação do algoritmo, onde os 
-temporários são combinados na solução final obtendo-se o arquivo inicial ordenado.
-
-Intercalar significa combinar dois ou mais blocos ordenados em um único bloco ordenado.
-A intercalação, neste caso, é utilizada como uma operação auxiliar na ordenação. O 
-processo completo utilizado para a ordenação neste trabalho é o visto no algoritmo 
-\ref{alg:ord}.
+Um algoritmo importante na solução é o que cria a estrutura de dados da hierarquia de memória que será simulado. Como ele
+depende da hierarquia setada na entrada, faremos a sua análise. Foi criado um tipo de dados para representar cada camada.
+A hierarquia de memória é representada por um vetor dessas camadas. Os dados que cada camada armazena são:
 
 \begin{algorithm}[h!]
-\label{alg:ord}
 \begin{footnotesize}
-
-$file \longleftarrow$ aponta para o arquivo de entrada\;
-$maxSize \longleftarrow$ máximo de valores a serem lidos\;
-$v[maxSize] \longleftarrow$ vetor alocado com o tamanho de $maxSize$\;
-$count \longleftarrow 0$\;
-$tempId \longleftarrow 0$\;
-\tcp{Gera temporários}
-\While{houver dados em file}
-{
-	\While{$count < maxSize$}
-	{
-		$v[count] \longleftarrow$ READ$(file)$\;
-		$count \longleftarrow count + 1$\;
-	}
-	ORDENA\_EM\_MEMORIA\_INTERNA($v$)\;
-	ESCREVE\_TEMP($v, tempId$)\;
-	$tempId \longleftarrow tempId + 1$\;
-}
-\tcp{Intercala}
-$temps[tempId] \longleftarrow$ vetor alocado com o tamanho de $tempId$\;
-\ForEach{arquivo temporário gerado $F_{i}$}
-{
-	$temps[i] \longleftarrow$ aponta para conteúdo do arquivo $F_{i}$\;
-}
-\While{houver dados em algum aquivo temporário $F_{i}$}
-{
-	$leitura \longleftarrow$ SELECIONA\_MENOR\_VALOR(temps);
-	ESCREVE\_SAIDA($leitura$);
-}
-
-\caption{Intercalação Balanceada de Vários Caminhos}
+$politica\longleftarrow$ guarda a política de manejo de memória utilizada pela camada\;
+$capacidade\longleftarrow$ capacidade da camada\;
+$velocidade\longleftarrow$ velocidade com que a camada responde\;
+$ocupacao\longleftarrow$ o quanto da camada de memória já está sendo utilizada\;
+$memoria[capacidade]\longleftarrow$ um vetor do tamanho da capacidade da memória para guardar os dados\;
+\caption{Camada da Hierarquia}
 \end{footnotesize}
 \end{algorithm}
 
-A quantidade máxima de valores a serem lidos a cada iteração na parte da geração
-dos temporários foi limitada para efeitos de simulação em $1024 * 1024$ números.
-Estes são salvos em um vetor e ordenados em memória interna utilizando o algoritmo
-\textit{Quicksort}.
+Para indicar que uma posição de memória está vazia, todas as células do vetor $memoria$ são inicialmente marcadas com o valor
+$-1$. Dessa forma, a complexidade do algoritmo para alocar essa estrutura é $O(n * m)$ onde $n$ é o número de camadas da cache
+e $m$ é o tamanho da maior capacidade de um nível de memória.
 
 \section{Código}
 
