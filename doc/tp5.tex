@@ -116,6 +116,20 @@ Para indicar que uma posição de memória está vazia, todas as células do vet
 $-1$. Dessa forma, a complexidade do algoritmo para alocar essa estrutura é $O(n * m)$ onde $n$ é o número de camadas da cache
 e $m$ é o tamanho da maior capacidade de um nível de memória.
 
+Com a estrutura de dados da hierarquia pronta, começamos a simulação requerendo o primeiro dado na primeira camada da 
+hierarquia. A simulação começa como já descrito na sessão anterior e, em algum momento precisaremos gravar um dado em uma
+camada que já está cheia. Neste caso, devemos utilizar uma política de substituição de dados para escolher qual dado deve 
+sair da memória para o mais novo entrar. Neste trabalho foram implementadas 4 políticas:
+
+\begin{itemize}
+  \item \textbf{LRU} - \textit{Least Recently Used}: o dado que foi utilizado à mais tempo é descartado;
+  \item \textbf{LFU} - \textit{Least Frequently Used}: o dado que é utilizado menos frequentemente que os outros é 
+  descartado;
+  \item \textbf{MRU} - \textit{Most Recently Used}: o dado que foi utilizado à menos tempo é descartado;
+  \item \textbf{FIFO} - \textit{First In First Out}: os dados ficam em "fila" de modo que o que está a mais tempo na fila
+  é descartado.
+\end{itemize}
+
 \section{Código}
 
 \subsection{Módulos}
