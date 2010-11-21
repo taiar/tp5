@@ -63,26 +63,16 @@ nível) e sua velocidade de acesso (ou sua latência - velocidade com a qual a m
 assim que ele é requisitado).
 
 Neste trabalho desenvolvemos um simulador para hierarquias arbitrárias de memória. Nele, podemos definir o número 
-de níveis que queremos, a capacidade de cada nível (em uma unidade chamada MUNITS), a velocidade em que cada nível 
-responde à uma requisição (em uma unidade chamada TUNITS) e qual a política de manejo de memória aquele nível utiliza
-para lidar com os dados quando sua capacidade máxima de armazenamento for atingida. Com uma hierarquia definida, 
-começamos a simular que dados são requeridos por algum sistema que estaria rodando sobre tal plataforma fazendo 
-com que estes dados trafeguem pelo sistema.
+de níveis que queremos, a capacidade de cada nível (em uma unidade chamada MUNITS), a velocidade em que cada nível responde à uma requisição (em uma unidade chamada TUNITS) e qual a política de manejo de memória aquele nível utiliza para lidar com os dados quando sua capacidade máxima de armazenamento for atingida. Com uma hierarquia definida, começamos a simular que dados são requeridos por algum sistema que estaria rodando sobre tal plataforma fazendo com que estes dados trafeguem pelo sistema.
 
-Inicialmente, todos os dados se encontram em um nível inicial \textbf{0}, que funciona com uma capacidade e velocidade 
-definidas independentemente da hierarquia de memória arbitrária que será simulada. Os dados são rquisitados sempre na 
-camada de ID mais alto definida na hierarquia. Dessa forma, dois cenários são possíveis:
+Inicialmente, todos os dados se encontram em um nível inicial \textbf{0}, que funciona com uma capacidade e velocidade definidas independentemente da hierarquia de memória arbitrária que será simulada. Os dados são rquisitados sempre na camada de ID mais alto definida na hierarquia. Dessa forma, dois cenários são possíveis:
 
 \begin{itemize}
   \item \textbf{HIT} - o dado é encontrado no nível requisitado;
   \item \textbf{MISS} - o dado não é encontrado no nível requisitado.
 \end{itemize}
 
-O tempo de resposta em que o dado foi encontrado equivale à velocidade da camada em que o dado foi encontrado. Quando 
-acontece um HIT em uma camada em que um dado foi requisitado, ele é retornado e o HIT da camada é contabilizado. Quando 
-acontece um MISS, o contabilizamos na camada e fazemos a requisição ao mesmo dado em um nível abaixo. As requisições 
-são propagadas níveis abaixo à medida em que os MISS's acontecem até que seja requisitada ao nível 0 quando com certeza
-acontecerá o HIT. Nesse caso ele não é contabilizado.
+O tempo de resposta em que o dado foi encontrado equivale à velocidade da camada em que o dado foi encontrado. Quando acontece um HIT em uma camada em que um dado foi requisitado, ele é retornado e o HIT da camada é contabilizado. Quando acontece um MISS, o contabilizamos na camada e fazemos a requisição ao mesmo dado em um nível abaixo. As requisições são propagadas níveis abaixo à medida em que os MISS's acontecem até que seja requisitada ao nível 0 quando com certeza acontecerá o HIT. Nesse caso ele não é contabilizado.
 
 Ao final da simulação, fazemos a razão entre os HIT e MISS contabilizados por cada camada e calculamos assim o MISS RATIO 
 e o HIT RATIO:
@@ -91,15 +81,12 @@ e o HIT RATIO:
 \[HitRatio = \frac{nHitCamada}{(nHitCamada + nMissCamada)}\]
 \end{center}
 
-Contabilizamos também o tempo médio gasto em cada chamada à um dado no programa somando todos os tempos de resposta das
-camadas em acontece HIT e dividindo esse resultado pelo total de chamadas feitas ao programa.
+Contabilizamos também o tempo médio gasto em cada chamada à um dado no programa somando todos os tempos de resposta das camadas em acontece HIT e dividindo esse resultado pelo total de chamadas feitas ao programa.
 
 \section{Solução Proposta}
 \label{solucao_proposta}
 
-Um algoritmo importante na solução é o que cria a estrutura de dados da hierarquia de memória que será simulado. Como ele
-depende da hierarquia setada na entrada, faremos a sua análise. Foi criado um tipo de dados para representar cada camada.
-A hierarquia de memória é representada por um vetor dessas camadas. Os dados que cada camada armazena são:
+Um algoritmo importante na solução é o que cria a estrutura de dados da hierarquia de memória que será simulado. Como ele depende da hierarquia setada na entrada, faremos a sua análise. Foi criado um tipo de dados para representar cada camada. A hierarquia de memória é representada por um vetor dessas camadas. Os dados que cada camada armazena são:
 
 \begin{algorithm}[h!]
 \begin{footnotesize}
@@ -112,23 +99,32 @@ $memoria[capacidade]\longleftarrow$ um vetor do tamanho da capacidade da memóri
 \end{footnotesize}
 \end{algorithm}
 
-Para indicar que uma posição de memória está vazia, todas as células do vetor $memoria$ são inicialmente marcadas com o valor
-$-1$. Dessa forma, a complexidade do algoritmo para alocar essa estrutura é $O(n * m)$ onde $n$ é o número de camadas da cache
-e $m$ é o tamanho da maior capacidade de um nível de memória.
+Para indicar que uma posição de memória está vazia, todas as células do vetor $memoria$ são inicialmente marcadas com o valor $-1$. Dessa forma, a complexidade do algoritmo para alocar essa estrutura é $O(n * m)$ onde $n$ é o número de camadas da cache e $m$ é o tamanho da maior capacidade de um nível de memória.
 
-Com a estrutura de dados da hierarquia pronta, começamos a simulação requerendo o primeiro dado na primeira camada da 
-hierarquia. A simulação começa como já descrito na sessão anterior e, em algum momento precisaremos gravar um dado em uma
-camada que já está cheia. Neste caso, devemos utilizar uma política de substituição de dados para escolher qual dado deve 
-sair da memória para o mais novo entrar. Neste trabalho foram implementadas 4 políticas:
+Com a estrutura de dados da hierarquia pronta, começamos a simulação requerendo o primeiro dado na primeira camada da hierarquia. A simulação começa como já descrito na sessão anterior e, em algum momento precisaremos gravar um dado em uma camada que já está cheia. Neste caso, devemos utilizar uma política de substituição de dados para escolher qual dado deve sair da memória para o mais novo entrar. Neste trabalho foram implementadas 4 políticas:
 
 \begin{itemize}
   \item \textbf{LRU} - \textit{Least Recently Used}: o dado que foi utilizado à mais tempo é descartado;
-  \item \textbf{LFU} - \textit{Least Frequently Used}: o dado que é utilizado menos frequentemente que os outros é 
-  descartado;
+  \item \textbf{LFU} - \textit{Least Frequently Used}: o dado que é utilizado menos frequentemente que os outros é descartado;
   \item \textbf{MRU} - \textit{Most Recently Used}: o dado que foi utilizado à menos tempo é descartado;
-  \item \textbf{FIFO} - \textit{First In First Out}: os dados ficam em "fila" de modo que o que está a mais tempo na fila
-  é descartado.
+  \item \textbf{FIFO} - \textit{First In First Out}: os dados ficam em "fila" de modo que o que está a mais tempo na fila é descartado.
 \end{itemize}
+
+Para todas as políticas de substituição temos um algoritmo $O(n)$, porém a \textbf{FIFO} é mais custosa pois, para efeitos de simplificação do código, a fila é implementada como um arranjo fazendo com que todas as células do vetor tenham que ser copiadas para o seu próximo lugar na fila para a entrada de um novo dado.
+
+Para as políticas \textbf{LRU} e \textbf{MRU}, é sempre armazenado o último tempo em que cada dado foi armazenado. Para a política \textbf{LFU} é armazenado o número de vezes em que cada dado foi acessado. Esses dados são armazenados na estrutura de simulação:
+
+\begin{algorithm}[h!]
+\begin{footnotesize}
+$tempos[nObjetos] \longleftarrow$ armazena o último tempo em que cada objeto foi requisitado\;
+$frequencias[nObjetos] \longleftarrow$ armazena quantas vezes um objeto foi requisitado\;
+$hits[nCamadas] \longleftarrow$ armazena o número de hits de cada camada\;
+$misses[nCamadas] \longleftarrow$ armazena o número de misses de cada camada\;
+$reqTotal \longleftarrow$ armazena quantas chamadas à dados foram feitas na simulação\;
+$tempoTotal \longleftarrow$ armazena o total de tempo gasto nas respostas às requisições\;
+\caption{Estrutura de simulação}
+\end{footnotesize}
+\end{algorithm}
 
 \section{Código}
 
