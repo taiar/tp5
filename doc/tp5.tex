@@ -183,20 +183,43 @@ que fará, além da compilação, com que o programa execute com uma entrada peq
 \label{avaliacao_experimental}
 
 \subsection{Qual o custo computacional da substituição de um objeto? Qual o custo em memória?}
+
+\begin{table}[htb]
+\centering
+\caption{Custo computacional e Custo em memória da substituição de um objeto}
 \begin{tabular}{|c|c|c|}
 \hline  & Custo Computacional & Custo em Memória \\ 
-\hline lru & O(n) & O(n) \\ 
-\hline lfu & O(n) & O(n) \\ 
-\hline mru & O(n) & O(n) \\ 
-\hline fifo & O(n) & O(n) \\ 
+\hline lru & $O(n)$ & $O(n)$ \\ 
+\hline lfu & $O(n)$ & $O(n)$ \\ 
+\hline mru & $O(n)$ & $O(n)$ \\ 
+\hline fifo & $O(n)$ & $O(n)$ \\ 
 \hline 
-\end{tabular} 
+\end{tabular}
+\end{table}
+
+O custo computacional para a substituição de todas as políticas é $O(n)$, com n
+sendo a capacidade de armazenamento da camada pois em todas as políticas conseguimos 
+identificar o elemento que deverá deixar a memória com apenas um leitura completa do 
+vetor.
+
+O mesmo se aplica ao custo em memória que será sempre em função da capacidade
+máxima de armazenamento da camada.
+
 \subsection{Qual o custo total da execução da simulação? E o custo em memória?}
-Já sei...
+
+Tomando como pior caso para a análise quando o miss acontece em todas as
+camadas, para cada um dos testes $t_{i}$ vamos passar por todas as camadas
+$c_{j}$ e percorrer toda a sua memória $m_{j}$ da camada tornando o algoritmo
+$O(t*c*m)$. O custo em memória para o mesmo cenário é $O(c*m)$ pois não sofre
+qualquer alteração com o aumento do número de testes uma vez que eles não são
+armazenados na memória.
+
+\subsection{Simulações individuais para cada política comparadas com o custo
+computacional do trabalho}
+
 \subsection{Qual o custo computacional da substituição de um objeto? Qual o custo em memória?}
 Plotar
-\subsection{Qual o custo computacional da substituição de um objeto? Qual o custo em memória?}
-Plotar
+
 %\begin{figure}[ht!]
 %\centering
 %\includegraphics[width=3.5cm,height=2.8cm]{avaliacoes/testes.png}
