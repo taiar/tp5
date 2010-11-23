@@ -214,25 +214,22 @@ $O(t*c*m)$. O custo em memória para o mesmo cenário é $O(c*m)$ pois não sofr
 qualquer alteração com o aumento do número de testes uma vez que eles não são
 armazenados na memória.
 
+\newpage
+
 \subsection{Simulações individuais para cada política comparadas com o custo
 computacional do trabalho}
 
-\subsection{Qual o custo computacional da substituição de um objeto? Qual o custo em memória?}
-Plotar
+\begin{figure}[ht!]
+\centering
+\includegraphics[width=320px,height=240px]{testes.png}
+\caption{Gráfico dos tempos de execução}
+\end{figure}
 
-%\begin{figure}[ht!]
-%\centering
-%\includegraphics[width=3.5cm,height=2.8cm]{avaliacoes/testes.png}
-%\label{img:resss}
-%\caption{Gráfico dos tempos de execução}
-%\end{figure}
+Ao plotarmos o gráfico do custo computacional para cada política em termos do tempo de execução, obtemos, variando a ordem de grandeza do número requisições feitas ao programa, funções de cartáter linear (as oscilações para poucas requisições foram causadas por instabilidades no sistema operacional no momento das simulações). Comparando com a complexidade do TP que havíamos calculado no item anterior, $O(t*c*m)$, obtemos um dado coerente. Para o conjunto de dados testados, o maior valor que representaria complexidade seria o do número de execuções $t$ tornando os outros parâmetros irrelevantes para a execução do programa, tornando sua execução linear. Caso o número de camadas de memória ou o tamanho da capacidade de cada camada de memória fosse tão grande quanto o número de chamadas à dados feitas na simulação, poderíamos obter ordens de complexidade quadráticas ou até cúbicas.
 
 \section{Conclusões}
 \label{conclusao}
 
-Por falta de tempo para implementar deixo aqui algumas idéias que fariam análises mais interessantes sobre o assunto e tornaria este trabalho mais proveitoso:
-\begin{itemize}
-  \item Uma boa idéia seria uti
-\end{itemize}
+Uma idéia que faria a implementação de um simulador como esse ser extremamente útil seria tentar comparar diferentes configurações de hierarquias de memória. Faríamos isso utilizando valores relativamente coerentes para as velocidades e capacidade de memórias das caches em uma cenário parecido com o que temos na realidade: Caches L1 e L2, Memórias, disco, etc... Após definida a hierarquia de uma forma mais verossímil possível, seria necessário conseguir alguma simulação utilizada comercialmente em benchmarks (alguma forma de simular chamadas de dados feitas pelo GCC durante o processo de compilação de um software grande, por exemplo). Com um benchmark real e uma hierarquia verossímil, começaríamos a combinar as políticas entre as camadas para avaliar uma melhor combinação (a que teria uma menor MISS RATIO).
 
 \end{document}
