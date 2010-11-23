@@ -38,7 +38,7 @@
 
 \begin{resumo}
 \label{resumo}
-Este relatório descreve um controlador de hierarquia de memórias e um simulador orientado a eventos para a geração de requisições de dados que estão gravados nesta memória. Foi simulado a requisição de dados que se encontravam em uma camada mais baixa (com alta latência) e utilizado um sistema de hierarquia de camadas de memória acima desta com o efeito de uma Cache para o sistema. Nessas camadas foram implementadas quatro políticas diferentes de Cache e aplicadas arbitráriamente sobre formatos igualmente arbitrários desse sistema. Como resultados pudemos perceber aspectos sobre o ganho da eficiência de sistemas que utilizam Cache e como combinações de diferentes tamanhos de caches e diferentes políticas de manejo de memória podem funcionar ajudando ou atrapalhando o sistema que a utiliza.
+Este relatório descreve um controlador de hierarquia de memórias e um simulador orientado a eventos para a geração de requisições de dados que estão gravados nesta memória. Foi simulado a requisição de dados que se encontravam em uma camada mais baixa (com alta latência) e utilizado um sistema de hierarquia de camadas de memória acima desta com o efeito de uma Cache para o sistema. Nessas camadas foram implementadas quatro políticas diferentes de Cache e aplicadas arbitrariamente sobre formatos igualmente arbitrários desse sistema. Como resultados pudemos perceber aspectos sobre o ganho da eficiência de sistemas que utilizam Cache e como combinações de diferentes tamanhos de caches e diferentes políticas de manejo de memória podem funcionar ajudando ou atrapalhando o sistema que a utiliza.
 \end{resumo}
 
 \section{Introdução}
@@ -49,7 +49,7 @@ Hierarquia de memória é, basicamente, uma estrutura organizada em múltiplos n
 
 Neste trabalho desenvolvemos um simulador para hierarquias arbitrárias de memória. Nele, podemos definir o número de níveis que queremos, a capacidade de cada nível (em uma unidade chamada MUNITS), a velocidade em que cada nível responde à uma requisição (em uma unidade chamada TUNITS) e qual a política de manejo de memória aquele nível utiliza para lidar com os dados quando sua capacidade máxima de armazenamento for atingida. Com uma hierarquia definida, começamos a simular que dados são requeridos por algum sistema que estaria rodando sobre tal plataforma fazendo com que estes dados trafeguem pelo sistema.
 
-Inicialmente, todos os dados se encontram em um nível inicial \textbf{0}, que funciona com uma capacidade e velocidade definidas independentemente da hierarquia de memória arbitrária que será simulada. Os dados são rquisitados sempre na camada de ID mais alto definida na hierarquia. Dessa forma, dois cenários são possíveis:
+Inicialmente, todos os dados se encontram em um nível inicial \textbf{0}, que funciona com uma capacidade e velocidade definidas independentemente da hierarquia de memória arbitrária que será simulada. Os dados são requisitados sempre na camada de ID mais alto definida na hierarquia. Dessa forma, dois cenários são possíveis:
 
 \begin{itemize}
   \item \textbf{HIT} - o dado é encontrado no nível requisitado;
@@ -141,7 +141,7 @@ Datat Timet
 $vCam_{i}$ - velocidade da camada de id \textit{i}; \\
 $cCam_{i}$ - capacidade de armazenamento da camada de id \textit{i}; \\
 $polCam_{i}$ - política de cache utilizada pela camada de id \textit{i}; \\
-$cCam_{0}$ - capacidade de armazenameno da camada 0; \\
+$cCam_{0}$ - capacidade de armazenamento da camada 0; \\
 $nTestes$ - número de chamadas a dados que será feito na simulação; \\
 $Data_{i}$ - referência ao dado de id \textit{i}; \\
 $Time_{i}$ - tempo em que o dado de id \textit{i} foi requisitado.
@@ -225,10 +225,14 @@ computacional do trabalho}
 \caption{Gráfico dos tempos de execução}
 \end{figure}
 
-Ao plotarmos o gráfico do custo computacional para cada política em termos do tempo de execução, obtemos, variando a ordem de grandeza do número requisições feitas ao programa, funções de cartáter linear (as oscilações para poucas requisições foram causadas por instabilidades no sistema operacional no momento das simulações). Comparando com a complexidade do TP que havíamos calculado no item anterior, $O(t*c*m)$, obtemos um dado coerente. Para o conjunto de dados testados, o maior valor que representaria complexidade seria o do número de execuções $t$ tornando os outros parâmetros irrelevantes para a execução do programa, tornando sua execução linear. Caso o número de camadas de memória ou o tamanho da capacidade de cada camada de memória fosse tão grande quanto o número de chamadas à dados feitas na simulação, poderíamos obter ordens de complexidade quadráticas ou até cúbicas.
+Ao plotarmos o gráfico do custo computacional para cada política em termos do tempo de execução, obtemos, variando a ordem de grandeza do número requisições feitas ao programa, funções de caráter linear (as oscilações para poucas requisições foram causadas por instabilidades no sistema operacional no momento das simulações). Comparando com a complexidade do TP que havíamos calculado no item anterior, $O(t*c*m)$, obtemos um dado coerente. Para o conjunto de dados testados, o maior valor que representaria complexidade seria o do número de execuções $t$ tornando os outros parâmetros irrelevantes para a execução do programa, tornando sua execução linear. Caso o número de camadas de memória ou o tamanho da capacidade de cada camada de memória fosse tão grande quanto o número de chamadas à dados feitas na simulação, poderíamos obter ordens de complexidade quadráticas ou até cúbicas.
 
 \section{Conclusões}
 \label{conclusao}
+
+Neste trabalho foi desenvolvido um simulador de hierarquia de memória e quatro políticas de manejo de memória como implementadas em um cenário real por caches. O simulador gera requisições a serem atendidas ao longo do tempo de simulação e a cache atende à essas requisições de acordo com uma política escolhida arbitrariamente para as camadas da hierarquia.
+
+O desenvolvimento do simulador foi algo bem direto uma vez que conseguimos definir uma estrutura de dados boa para a simulação. A análise de complexidade da solução proposta não foi uma tarefa tão árdua foi claramente conseguíamos ver o que acontecia com os dados mesmo quando ocorriam MISS nas camadas e assim, traçar um melhor e um pior caminho de como o sistema se portaria.
 
 Uma idéia que faria a implementação de um simulador como esse ser extremamente útil seria tentar comparar diferentes configurações de hierarquias de memória. Faríamos isso utilizando valores relativamente coerentes para as velocidades e capacidade de memórias das caches em uma cenário parecido com o que temos na realidade: Caches L1 e L2, Memórias, disco, etc... Após definida a hierarquia de uma forma mais verossímil possível, seria necessário conseguir alguma simulação utilizada comercialmente em benchmarks (alguma forma de simular chamadas de dados feitas pelo GCC durante o processo de compilação de um software grande, por exemplo). Com um benchmark real e uma hierarquia verossímil, começaríamos a combinar as políticas entre as camadas para avaliar uma melhor combinação (a que teria uma menor MISS RATIO).
 
